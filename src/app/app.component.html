@@ -1,0 +1,261 @@
+<div *ngIf="identity" class="navigation0 col-lg-12">
+  <div class="navbar col-lg-12">
+
+    <div class="col-lg-2" style="text-align: start; margin-top: 7px;">
+        <button type="button" class="btn btn-link" style=" color: #ffffff;" (click)="logout()" [routerLink]="['/']">
+          <span style="font-size: 150%;" class="glyphicon glyphicon-off"></span>
+      </button>
+    </div>
+
+    <div class="col-lg-8" style="margin-top: -13px; text-align: center;">
+      <h1 *ngIf="identity.type=='local'" style="font-family: 'sofia-pro'; font-weight:520; color: #fff;">
+        Tim Hortons | "{{identity.name}}"
+      </h1>
+      <h1 *ngIf="identity.type!='local'" style="font-family: 'sofia-pro'; font-weight:520; color: #fff;">
+        Tim Hortons | "{{identity.fname + ' ' + identity.lname}}"
+      </h1>
+      
+    </div>
+
+    <div class="col-lg-2" style="text-align: end; margin-top: 11px;">
+      <img src="{{'https://dev-soporte.timhortonsmx.com/img/hojamapple.png'}}" class="avatar" alt="Imagen" style="margin-top:-10px; height: 50px; width: 50px">
+    </div>
+    
+  </div>
+
+  <div *ngIf="identity" class="col-lg-12 container-con-scroll" style="margin-top: 4.7%;">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>
+
+
+
+<div *ngIf="!identity && changePass==false" class="col-lg-12">
+    
+  <div class="login-box">
+    <img src="{{'https://dev-soporte.timhortonsmx.com/img/logo-short.jpeg'}}" class="avatar" alt="Imagen">
+    <h1 style="font-family: 'sofia-pro'; font-size: 190%; font-weight:520;">TimsMetric</h1>
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+      <!-- USERNAME INPUT -->
+      <label for="username" style="font-family: 'sofia-pro'; font-size: 110%; font-weight:510; margin-top: -3px;">Usuario ó email</label>
+      <input type="text" #email="ngModel" name="email" [(ngModel)]="users.email" placeholder="Ingresar usuario ó email">
+      <!-- PASSWORD INPUT -->
+      <label for="password" style="font-family: 'sofia-pro'; font-size: 110%; font-weight:510;">Contraseña</label>
+      <input type="password" #password="ngModel" name="password" [(ngModel)]="users.password" placeholder="Ingresar contraseña">
+      <input style="margin-top: 6px; font-family: 'sofia-pro'; font-size: 130%; font-weight:400;" type="submit" value="Ingresar">
+      <a href="#" (click)="resumePasword()" style="margin-top: 5%; font-family: 'sofia-pro'; font-size: 90%; font-weight:420;">Restablecer contraseña</a>
+    </form>
+  </div>
+  <div class="clearfix"></div>
+
+</div>
+
+<div *ngIf="!identity && changePass==true" class="col-lg-12">
+  <div class="card" style="height: 100%; margin-left: 25%; margin-right: 25%; margin-top: 1%;">
+    <div class="card-body">
+        <div class="row">
+          <h2 style="text-align: center;"> Cambio de contraseña</h2>
+            <form #userUpdateForm="ngForm" (ngSubmit)="onSubmitChangePass()" class="col-md-10">
+                <div class="col-lg-12">
+                    <div style="margin-top: 30px ;margin-bottom: 5%;">
+                        <div class="col-md-12" style="margin-top: 30px;">
+                            <label class="col-md-4" style="text-align: right;">Nueva contraseña:</label>
+                            <div class="col-md-7">
+                                <input type="password" #name="ngModel" name="password" [(ngModel)]="password" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="col-md-12" style="margin-top: 30px;">
+                            <label class="col-md-4" style="text-align: right;">Nueva contraseña:</label>
+                            <div class="col-md-7">
+                                <input type="password" #name="ngModel" name="password2" [(ngModel)]="password2" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-11" style="margin-top: 30px ;margin-bottom: 5%; text-align: center;">
+                            <span class="btn btn-primary" (click)="changePassword2()" >
+                                Cambiar contraseña
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+</div>
+
+<footer *ngIf="!identity && changePass==false">
+  <div class="footer"></div>
+  <div style="position: fixed; bottom: 0px; left: 1%;">
+    <p style="font-size: 90%; color: #DDCBA4;">{{version}}</p>
+  </div>
+  <div style="position: fixed; bottom: 0px; right: 1%; color: #DDCBA4;">
+    <p >TimsMetric 2023 Ⓜ</p>
+  </div>
+</footer>
+
+<footer *ngIf="identity">
+  <div class="footer"></div>
+  <div *ngIf="medida=='grande'" style="position: fixed; bottom: 0px; left: 1%;">
+    <p style="font-size: 90%; color: #DDCBA4">{{version}}</p>
+  </div>
+  <div *ngIf="medida=='chica'" style="position: fixed; bottom: 0px; left: 1%;">
+    <p style="font-size: 90%;">{{version}}</p>
+  </div>
+
+  <div style="position: fixed; bottom: 0px; right: 1%; color: #DDCBA4;">
+    <p >TimsMetric 2023 Ⓜ</p>
+  </div>
+</footer>
+
+
+<style>
+
+.footer {
+  width: 100%;
+  height: 34px;
+  background-color: #3F2021;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+.textos{
+  color: #DDCBA4;
+}
+
+.actived{
+    background-color: #DDCBA4;
+    color: #3F2021;
+    width: 113%;
+}
+
+.login-box {
+  margin: auto;
+  text-align: center;
+  width: 310px;
+  height: 440px;
+  background: #DDCBA4;
+  color: #3F2021;
+  position: center;
+  box-sizing: border-box;
+  padding: 70px 30px;
+  margin-top: 120px;
+  border-radius: 20px
+}
+
+.login-box .avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 40%;
+  position: absolute;
+  left: calc(50% - 50px);
+  overflow: hidden;
+  background-color: #C8102E;
+  margin-top: -120px;
+}
+
+.login-box h1 {
+  margin: 0;
+  padding: 0 0 25px;
+  text-align: center;
+  font-size: 22px;
+}
+
+.login-box label {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  display: block;
+  text-align: start;
+}
+
+.login-box input {
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.login-box input[type="text"], .login-box input[type="password"] {
+  border: none;
+  border-bottom: 1px solid #3F2021;
+  background: transparent;
+  outline: none;
+  height: 40px;
+  color: #3F2021;
+  font-size: 16px;
+}
+
+.login-box input[type="submit"] {
+  border: none;
+  outline: none;
+  height: 40px;
+  background: #C8102E;
+  color: rgb(255, 255, 255);
+  font-size: 18px;
+  border-radius: 20px;
+}
+
+.login-box input[type="submit"]:hover {
+  cursor: pointer;
+  background: #810707;
+  color: rgba(255, 255, 255, 0.979);
+}
+
+.login-box a {
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 20px;
+  color: #79311d;
+}
+
+.login-box a:hover {
+  color: rgb(12, 11, 11);
+}
+.logo-navi{
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #C8102E;
+  margin-left: 37%;
+}
+.newImg{
+  color: rgb(165, 164, 164);
+  width: 80px;
+  height: 100px;
+}
+.color-top{
+  background-color: #C8102E;
+  margin-left: -10%;
+  width: 100%;
+  height: 15px;
+}
+
+
+.logo-gray{
+  width: 130px;
+  margin-left: 30px;
+}
+
+@import url("https://p.typekit.net/p.css?s=1&k=lkr2zif&ht=tk&f=24539.24540.24547&a=6178157&app=typekit&e=css");
+@font-face {
+font-family:"sofia-pro";
+src:url("https://use.typekit.net/af/5d97ff/00000000000000007735f999/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("woff2"),url("https://use.typekit.net/af/5d97ff/00000000000000007735f999/30/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("woff"),url("https://use.typekit.net/af/5d97ff/00000000000000007735f999/30/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("opentype");
+font-display:auto;font-style:normal;font-weight:700;font-stretch:normal;
+}
+@font-face {
+font-family:"sofia-pro";
+src:url("https://use.typekit.net/af/66e20c/00000000000000007735f993/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i7&v=3") format("woff2"),url("https://use.typekit.net/af/66e20c/00000000000000007735f993/30/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i7&v=3") format("woff"),url("https://use.typekit.net/af/66e20c/00000000000000007735f993/30/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i7&v=3") format("opentype");
+font-display:auto;font-style:italic;font-weight:700;font-stretch:normal;
+}
+@font-face {
+font-family:"sofia-pro";
+src:url("https://use.typekit.net/af/b718ff/00000000000000007735f98d/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("woff2"),url("https://use.typekit.net/af/b718ff/00000000000000007735f98d/30/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("woff"),url("https://use.typekit.net/af/b718ff/00000000000000007735f98d/30/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("opentype");
+font-display:auto;font-style:normal;font-weight:400;font-stretch:normal;
+}
+
+  </style>
